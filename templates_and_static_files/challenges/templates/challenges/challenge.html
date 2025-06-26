@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ text_month }} Challenge</title>
+    <title>{{ month_name }} Challenge</title>
 </head>
 <body>
-    <h1>{{ text_month|title }}'s Challenge</h1> <!-- filter -->
-    <h2>{{ text_challenge }}</h2> <!-- dynamic content, 키를 넣어줌 -->
+    <h1>{{ month_name|title }}'s Challenge</h1> <!-- filter -->
+    {% if text_challenge is not None %}
+        <h2>{{ text_challenge }}</h2> <!-- dynamic content, 키를 넣어줌 -->
+    {% else %}
+        <p>There is no challenge for this month yet!</p>
+    {% endif %}
 </body>
 </html>

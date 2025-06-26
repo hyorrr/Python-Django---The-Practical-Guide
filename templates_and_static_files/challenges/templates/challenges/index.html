@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Challenges</title>
+</head>
+<body>
+    <ul>
+        <!-- 여기서 months는 views.py line.27 line "months": months 에서의 "months"-->
+        {% for month in months %}
+            <!-- <li><a href="/challenges/{{ month }}">{{ month|title }}</a></li> -->
+            <!-- Use the 'url' tag to avoid hard-coding URLs and make navigation dynamic -->
+            <!-- The 'month' variable here comes from the for loop, and it matches the '<str:month>' variable in urls.py -->
+            <li><a href="{% url "month-challenge" month=month %}">{{ month|title }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+
+    
+
+    

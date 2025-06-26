@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.template.loader import render_to_string # to bring some templates(html files)
 
@@ -21,18 +21,12 @@ monthly_challenges = {
 # Create your views here.
 
 def index(request):
-    list_items = ""
     months = list(monthly_challenges.keys())
 
-    for month in months:
-        capitalized_month = month.capitalize() # only first letter is upper and rests are lower
-        month_path = reverse("month-challenge", args=[month])
-        list_items += f"<li><a href=\"{month_path}\">{capitalized_month}</a></li>"
+    return render(request, "challenges/index_inheritance.html", {
+        "months": months
+    })
 
-    # "<li><a href="...">January</a></li><li><a href="...">Feburary</a></li>..."
-
-    response_data = f"<ul>{list_items}</ul>"
-    return HttpResponse(response_data)
 
 def monthly_challenge_by_number(request, month):
     # for change number to string
@@ -55,9 +49,12 @@ def monthly_challenge(request, month):
         #response_data = render_to_string("challenges/challenge.html") # read the template and render by string
         # return HTML
         #return HttpResponse(response_data)  
-        return render(request, "challenges/challenge.html", {
-            "text_month": month,
-             "text_challenge": challenge_text # context 라 불림 # for dynamic content
+        return render(request, "challenges/challenge_inheritance.html", {
+            "month_name": month,
+            "text_challenge": challenge_text # context 라 불림 # for dynamic content
         })
     except:
-        return HttpResponseNotFound("<h1>This month is not supported!</h1>")
+        # return HttpResponseNotFound("<h1>This month is not supported!</h1>")
+        # respone_data = render_to_string("404.html")
+        # return HttpResponseNotFound(respone_data) # 개발자모드에서 network 확인시 404 로 뜸
+        raise Http404() # 자동적으로 /template/404.html 파일을 불러옴, 파일 이름은 꼭 404.html 여야함

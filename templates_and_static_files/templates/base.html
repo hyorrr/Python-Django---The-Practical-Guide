@@ -1,0 +1,17 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block page_title %}My Challenges{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    {% block css_files %}{% endblock css_files %}
+</head>
+<body>
+    <h1>Month Challenges</h1>
+    {% comment %}자식 템플릿에서 content 에 아무 내용이 없으면 heyyy 가 상속됨{% endcomment %}
+    {% block content %}<h2>heyyyy</h2>{% endblock %}
+</body>
+</html>

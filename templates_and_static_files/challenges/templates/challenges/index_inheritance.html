@@ -1,0 +1,23 @@
+{% extends "base.html" %} <!-- settings.py 에서 BASE DIR 를 설정해줌으로써 절대경로 사용가능 --> 
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "challenges/challenges.css" %}">
+{% endblock css_files %}
+
+{% block page_title %}
+    All Challenges
+{% endblock  %}
+    
+{% block content %}
+    {% include "challenges/includes/header.html" %}
+    <ul>       
+        {% for month in months %}
+            <li><a href="{% url "month-challenge" month=month %}">{{ month|title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock  %} 
+
+    
+
+    

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-pbm%d5w)*kf!vn-2&tg$$+#f2tts&5h1bw3)7hwxteit3lc_&m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # False 일 때 Django가 절대 정적 파일(static files)을 직접 서빙 안함, 404 확인할때만 False 로 놓기
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', # CSS, JS, 이미지 같은 정적 파일을 관리하고 서빙(보여주기)할 수 있게 해줌
 ]
 
 MIDDLEWARE = [
@@ -58,8 +58,9 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             # BASE_DIR / "challenges" / "templates" # 비표준 경로나 커스텀 경로를 수동 지정
+            BASE_DIR / "templates" # templates/ 폴더 안에 있는 파일들을 불러올수있음, 폴더는X // 위치: project_root/templates/
         ],
-        'APP_DIRS': True, # 앱 내 templates/앱이름/ 구조 자동 인식
+        'APP_DIRS': True, # 앱 내 templates/앱이름/ 구조 자동 인식 // 위치: challenges/templates/challenges/
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -118,7 +119,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' 
+# 정적 파일(static files)을 브라우저에 보여줄 때 이 URL 경로로 제공, 그래서 challenges/static 폴더 만든거
+# 근데 이거 자체만으로 global 레벨의 static 폴더 경로를 가르켜주진않음
+# 그래서 해당 줄을 추가
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
