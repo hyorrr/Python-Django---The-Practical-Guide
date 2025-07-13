@@ -8,59 +8,20 @@ from django.utils.text import slugify
 
 # Create your models here.
 
-class Country(models.Model):
-    name = models.CharField(max_length=80)
-    code = models.CharField(max_length=2)
-    
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        verbose_name_plural = "Countries"
-
-class Address(models.Model):
-    street = models.CharField(max_length=80)
-    postal_code = models.CharField(max_length=5)
-    city = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return f"{self.street}, {self.postal_code}, {self.city}"
-    
-    class Meta:
-        verbose_name_plural = "Adress Entries" # Customizes how the plural model name is displayed in the Django admin interface
-
-class Author(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True) # one to one relationship doesn't need related_name bcz related_name will be automatically created
-    
-    def full_name(self):
-       return self.first_name + " " + self.last_name
-    
-    def __str__(self):
-       return self.full_name()
-    
-
 class Book(models.Model):
     title = models.CharField(max_length=50)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)])
     # author = models.CharField(default="Unkonwn" ,max_length=100)
-    # author = models.CharField(null=True ,max_length=100)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, related_name="books")
-    # ForeignKey: a one-to-many Relationship
+    author = models.CharField(null=True ,max_length=100)
     is_bestselling = models.BooleanField(default=False)
-    
     # db_index = True => 그 열에 대해 색인을 만들어서 검색 성능 향상 (id로 검색하지 않으면 검색 느림)
     # slug = models.SlugField(default="", null=False, db_index=True, blank=True, editable=False) # Harry Potter 1 => harry-potter-1
     slug = models.SlugField(default="", null=False, db_index=True, blank=True)
     # when adding data in admin site, slug data can be blanked => blank=True
     # Slug data isn't made from user => editable=True (won't able to see slug data on site)
     # we chaneged model so need to migrate (shell)
-    
-    published_countries = models.ManyToManyField(Country, null=False, related_name="books")
-    # Django automatically creates a join table and handles deletions,
-    # so on_delete is not needed for ManyToManyField
+
 
     def get_absolute_url(self):
         return reverse("book-detail", args=[self.slug])
