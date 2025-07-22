@@ -23,4 +23,5 @@ admin.site.register(Author, AuthorAdmin)
 admin.site.register(Address)
 admin.site.register(Country)
 admin.site.register(Book,BookAdmin)
+admin.site.register(Country)
 
